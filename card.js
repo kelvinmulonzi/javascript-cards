@@ -3,14 +3,14 @@ let cities = [
     title: "nairobi",
     description: "this is nairobi",
     country: "kenya",
-    Image: "nairobi.jpg",
+    Image: "kampala.png",
   },
   
     {
         title: "kampala",
         description: "this is kampala",
         country: "uganda",
-        Image: "url"
+        Image: "kampala.png"
         
   }
     ,
@@ -18,7 +18,7 @@ let cities = [
             title: "kigali",
             description: "this is kigali",
             country: "rwanda",
-            Image: "kigali.jpg"
+            Image: "kampala.png"
             
     }
     ,
@@ -26,7 +26,7 @@ let cities = [
             title: "dodoma",
             description: "this is dodoma",
             country: "tanzania",
-            Image: "url"
+            Image: "kampala.png"
             
     }
 
@@ -39,7 +39,8 @@ function displayCities({title, description, country, Image}) {
         <h3>${title}</h3>
         <div class="card-body">
         <p>${description}</p>  
-        <p>${country}</p>  ;
+        <p>${country}</p>  
+        
         </div>
         </div>
 
@@ -51,3 +52,26 @@ let citynames = cities.map((mycity)=>{
     return displayCities(mycity);       
 });
 cardholder.innerHTML = citynames;
+document.addEventListener("DOMContentLoaded", () => {
+  cities.forEach((city, index) => {
+    const likeButton = document.createElement("button");
+    likeButton.innerText = "Like";
+    likeButton.classList.add("like-button");
+    
+    const likes = localStorage.getItem(`likes-${index}`) || 0;
+    const likesDisplay = document.createElement("span");
+    likesDisplay.innerText = `Likes: ${likes}`;
+    likesDisplay.classList.add("likes-display");
+
+    likeButton.addEventListener("click", () => {
+      let currentLikes = parseInt(localStorage.getItem(`likes-${index}`) || 0);
+      currentLikes++;
+      localStorage.setItem(`likes-${index}`, currentLikes);
+      likesDisplay.innerText = `Likes: ${currentLikes}`;
+    });
+
+    const card = document.querySelectorAll(".card1")[index];
+    card.appendChild(likeButton);
+    card.appendChild(likesDisplay);
+  });
+});
